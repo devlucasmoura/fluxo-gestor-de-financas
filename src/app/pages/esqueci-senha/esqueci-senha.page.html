@@ -1,0 +1,42 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="gradient-header">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" class="back-btn">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="header-title">Recuperar Senha</ion-title>
+    <div class="header-decor">
+      <div class="circle circle-lg"></div>
+      <div class="circle circle-sm"></div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="auth-content">
+  <div class="form-card">
+    <div class="icon-container">
+      <div class="icon-circle">
+        <ion-icon name="lock-closed-outline"></ion-icon>
+      </div>
+    </div>
+
+    <h1 class="form-title">Esqueceu sua senha?</h1>
+    <p class="form-subtitle">
+      Insira seu e-mail e enviaremos as instruções para recuperar sua conta.
+    </p>
+
+    <div class="input-group">
+      <label>Email</label>
+      <div class="input-wrapper">
+        <input type="email" [(ngModel)]="email" placeholder="seu@email.com" />
+      </div>
+    </div>
+
+    <ion-button expand="full" class="btn-primary" (click)="enviar()">
+      Enviar Instruções
+    </ion-button>
+
+    <p class="back-link" (click)="goBack()">← Voltar para o Login</p>
+  </div>
+</ion-content>

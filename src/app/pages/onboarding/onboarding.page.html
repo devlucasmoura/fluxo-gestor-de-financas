@@ -1,0 +1,27 @@
+<div class="onboarding-container">
+  <div class="illustration-area">
+    <div class="circle-outer"></div>
+    <div class="circle-inner"></div>
+    <div class="character-wrapper">
+      <!-- Substitua pelo caminho da sua imagem 3D: assets/images/character.png -->
+      <img
+        src="assets/images/character.png"
+        alt="personagem"
+        class="character-img"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" />
+      <span class="character-fallback">🧑‍💼</span>
+    </div>
+  </div>
+
+  <div class="content-area">
+    <h1 class="title">Gaste Com<br>Sabedoria</h1>
+
+    <ion-button expand="full" class="btn-comecar" (click)="comecar()">
+      Comece Agora
+    </ion-button>
+
+    <p class="login-link">
+      Já Tem Conta? <span (click)="login()">Log In</span>
+    </p>
+  </div>
+</div>

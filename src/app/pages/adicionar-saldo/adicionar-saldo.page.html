@@ -1,0 +1,81 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="gradient-header">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" class="back-btn">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="header-title">Adicionar Saldo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="add-balance-container">
+    <!-- Icon Section -->
+    <div class="icon-section">
+      <div class="icon-circle">
+        <ion-icon name="wallet-outline"></ion-icon>
+      </div>
+      <h2>Quanto deseja adicionar?</h2>
+      <p>O valor será adicionado ao seu saldo atual.</p>
+    </div>
+
+    <!-- Input Card -->
+    <ion-card class="amount-card">
+      <ion-card-content>
+        <label class="form-label">VALOR PARA ADICIONAR</label>
+        <div class="amount-input-group">
+          <span class="currency">R$</span>
+          <ion-input 
+            type="number" 
+            [(ngModel)]="amount" 
+            placeholder="0.00"
+            inputmode="decimal"
+            step="0.01"
+            min="0"
+            class="amount-input"
+            autofocus="true">
+          </ion-input>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Quick Options -->
+    <div class="quick-options">
+      <ion-button fill="outline" (click)="amount = '50'" class="option-btn">R$ 50</ion-button>
+      <ion-button fill="outline" (click)="amount = '100'" class="option-btn">R$ 100</ion-button>
+      <ion-button fill="outline" (click)="amount = '200'" class="option-btn">R$ 200</ion-button>
+    </div>
+  </div>
+
+  <!-- Custom Alert Modal -->
+  <ion-modal [isOpen]="isAlertModalOpen" (didDismiss)="isAlertModalOpen = false" class="alert-custom-modal">
+    <ng-template>
+      <div class="alert-container">
+        <div class="alert-header">
+          <ion-icon name="close-outline" class="close-alert" (click)="isAlertModalOpen = false"></ion-icon>
+        </div>
+        <div class="alert-body">
+          <div class="alert-icon-wrapper">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+          </div>
+          <h3>Atenção</h3>
+          <p>{{ alertMessage }}</p>
+        </div>
+        <div class="alert-footer">
+          <ion-button (click)="isAlertModalOpen = false" expand="block" class="alert-btn">
+            Entendido
+          </ion-button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-button-container">
+    <ion-button expand="block" (click)="confirmAddBalance()" class="confirm-btn">
+      Confirmar Adição
+    </ion-button>
+  </div>
+</ion-footer>

@@ -1,0 +1,37 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="gradient-header">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" class="back-btn">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="header-title">Gerenciar Contas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="content-card">
+    <div class="field-group">
+      <span class="field-label">E-mail</span>
+      <span class="field-value">{{ email || '—' }}</span>
+    </div>
+    <div class="divider"></div>
+    <div class="field-group">
+      <span class="field-label">Método de login</span>
+      <span class="field-value">{{ provider || '—' }}</span>
+    </div>
+    <div class="divider"></div>
+    <div class="field-group">
+      <span class="field-label">Conta criada em</span>
+      <span class="field-value">{{ criadoEm || '—' }}</span>
+    </div>
+  </div>
+
+  <div class="danger-card">
+    <p class="danger-title">Zona de perigo</p>
+    <button class="delete-btn" (click)="confirmarExclusao()">
+      <ion-icon name="trash-outline"></ion-icon>
+      Excluir minha conta
+    </button>
+  </div>
+</ion-content>

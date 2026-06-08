@@ -1,0 +1,36 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="gradient-header">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" class="back-btn">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="header-title">Data e Privacidade</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="content-card">
+    <p class="section-label">Seus dados</p>
+
+    <div class="info-item">
+      <h4>Dados coletados</h4>
+      <p>Coletamos apenas nome, e-mail e transações financeiras inseridas por você.</p>
+    </div>
+    <div class="divider"></div>
+    <div class="info-item">
+      <h4>Uso dos dados</h4>
+      <p>Seus dados são usados exclusivamente para personalizar sua experiência no Fluxo. Não compartilhamos com terceiros.</p>
+    </div>
+    <div class="divider"></div>
+    <div class="info-item">
+      <h4>Armazenamento</h4>
+      <p>Seus dados são armazenados com segurança no Firebase (Google) com criptografia em trânsito e em repouso.</p>
+    </div>
+    <div class="divider"></div>
+    <div class="info-item">
+      <h4>Exclusão de dados</h4>
+      <p>Para excluir todos os seus dados, acesse <strong>Gerenciar contas</strong> e selecione "Excluir minha conta".</p>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,63 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="gradient-header">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" class="back-btn">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="header-title">Criar Conta</ion-title>
+    <div class="header-decor">
+      <div class="circle circle-lg"></div>
+      <div class="circle circle-sm"></div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="auth-content">
+  <div class="form-card">
+    <p class="form-subtitle">Preencha os dados para criar sua conta</p>
+
+    <div class="input-group">
+      <label>Nome Completo</label>
+      <div class="input-wrapper">
+        <input type="text" [(ngModel)]="nome" placeholder="" />
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>Email</label>
+      <div class="input-wrapper">
+        <input type="email" [(ngModel)]="email" placeholder="seu@email.com" />
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>Senha</label>
+      <div class="input-wrapper">
+        <input type="password" [(ngModel)]="senha" placeholder="••••••••••••" />
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>Confirmar Senha</label>
+      <div class="input-wrapper">
+        <input type="password" [(ngModel)]="confirmarSenha" placeholder="••••••••••••" />
+      </div>
+    </div>
+
+    <div class="terms-row">
+      <ion-checkbox [(ngModel)]="aceitouTermos" class="terms-checkbox"></ion-checkbox>
+      <p class="terms-text">
+        Concordo com os <span class="terms-link">Termos e condições</span>
+      </p>
+    </div>
+
+    <ion-button expand="full" class="btn-primary" (click)="criar()">
+      Criar Conta
+    </ion-button>
+
+    <p class="bottom-link">
+      Já tem conta? <span (click)="irParaLogin()">Fazer Login</span>
+    </p>
+  </div>
+</ion-content>

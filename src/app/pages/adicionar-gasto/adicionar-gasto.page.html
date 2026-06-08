@@ -1,0 +1,242 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="gradient-header">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" class="back-btn">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="header-title">Adicionar Gasto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="menu-btn">
+        <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Name Card -->
+  <ion-card class="name-card">
+    <ion-card-content>
+      <label class="form-label">NOME</label>
+      
+      <ion-input 
+        type="text"
+        [(ngModel)]="expenseName"
+        placeholder="Ex: Netflix, Spotify, PSN, Discord..."
+        class="name-input">
+      </ion-input>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Category Card -->
+  <ion-card class="category-card" (click)="openCategoryModal()">
+    <ion-card-content>
+      <label class="form-label">CATEGORIA</label>
+      
+      <div class="category-display-input">
+        <span *ngIf="!categoryName" class="placeholder">Selecione uma categoria</span>
+        <span *ngIf="categoryName" class="selected-value">
+          <img *ngIf="categoryIsBrand" [src]="getBrandSvg(categoryIcon)" style="width:22px;height:22px;border-radius:4px;vertical-align:middle;margin-right:6px">
+          <span *ngIf="!categoryIsBrand">{{ categoryIcon }} </span>{{ categoryName }}
+        </span>
+        <ion-icon name="chevron-down-outline" class="dropdown-icon"></ion-icon>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Price Card -->
+  <ion-card class="price-card">
+    <ion-card-content>
+      <label class="form-label">PREÇO</label>
+      
+      <div class="price-input-group">
+        <ion-input 
+          type="number"
+          [(ngModel)]="price"
+          placeholder="0.00"
+          inputmode="decimal"
+          step="0.01"
+          min="0"
+          class="price-input">
+        </ion-input>
+        <span class="currency">R$</span>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Date Card -->
+  <ion-card class="date-card" (click)="openDateModal()">
+    <ion-card-content>
+      <label class="form-label">DATA</label>
+      
+      <div class="date-input-group">
+        <div class="date-display">{{ formatDate(date) }}</div>
+        <ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Receipt Card -->
+  <ion-card class="receipt-card">
+    <ion-card-content>
+      <label class="form-label">COMPROVANTE</label>
+      
+      <div class="receipt-input-container">
+        <input 
+          type="file" 
+          #fileInput
+          (change)="onFileSelected($event)" 
+          accept="image/*,application/pdf"
+          hidden>
+        
+        <div *ngIf="!selectedFileName" class="upload-placeholder" (click)="fileInput.click()">
+          <ion-icon name="attach-outline"></ion-icon>
+          <span>Anexar comprovante</span>
+        </div>
+
+        <div *ngIf="selectedFileName" class="file-info">
+          <div class="file-details">
+            <ion-icon name="document-outline" class="file-icon"></ion-icon>
+            <span class="file-name">{{ selectedFileName }}</span>
+          </div>
+          <ion-button fill="clear" color="danger" (click)="removeFile()">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Save Button -->
+  <div class="save-button-container">
+    <ion-button 
+      (click)="saveExpense()"
+      class="save-btn">
+      Salvar Gasto
+    </ion-button>
+  </div>
+
+  <!-- Category Selection Modal -->
+  <ion-modal [isOpen]="isCategoryModalOpen" (didDismiss)="isCategoryModalOpen = false" class="category-modal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="modal-header">
+          <ion-title>Selecionar Categoria</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="isCategoryModalOpen = false">
+              <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="modal-content">
+        <div class="category-list">
+          <div 
+            *ngFor="let category of categories" 
+            class="category-item" 
+            [class.active]="categoryName === category.name"
+            (click)="selectCategory(category)">
+            <div class="category-item-icon">
+              <img *ngIf="category.isBrand" [src]="getBrandSvg(category.icon)" style="width:32px;height:32px;border-radius:6px">
+              <span *ngIf="!category.isBrand">{{ category.icon }}</span>
+            </div>
+            <div class="category-item-label">{{ category.name }}</div>
+            <ion-icon *ngIf="categoryName === category.name" name="checkmark-circle" class="checkmark"></ion-icon>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Date Selection Modal (Visual idêntico ao de categorias) -->
+  <ion-modal [isOpen]="isDateModalOpen" (didDismiss)="isDateModalOpen = false" class="date-modal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="modal-header">
+          <ion-title>Selecionar Data</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeDateModal()">
+              <ion-icon name="checkmark-circle"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="modal-content">
+        <div class="datetime-container">
+          <ion-datetime 
+            presentation="date" 
+            [(ngModel)]="date"
+            locale="pt-BR"
+            size="cover"
+            (ionChange)="closeDateModal()">
+          </ion-datetime>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Custom Alert Modal -->
+  <ion-modal [isOpen]="isAlertModalOpen" (didDismiss)="isAlertModalOpen = false" class="alert-custom-modal">
+    <ng-template>
+      <div class="alert-container">
+        <div class="alert-header">
+          <ion-icon name="close-outline" class="close-alert" (click)="isAlertModalOpen = false"></ion-icon>
+        </div>
+        <div class="alert-body">
+          <div class="alert-icon-wrapper">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+          </div>
+          <h3>Atenção</h3>
+          <p>{{ alertMessage }}</p>
+        </div>
+        <div class="alert-footer">
+          <ion-button (click)="isAlertModalOpen = false" expand="block" class="alert-btn">
+            Entendido
+          </ion-button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>
+
+<!-- Bottom Tab Bar -->
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="tab-bar">
+    <div class="tab-buttons">
+      <ion-button 
+        (click)="setActiveTab('home')" 
+        [class.active]="activeTab === 'home'"
+        class="tab-btn">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+      
+      <ion-button 
+        (click)="setActiveTab('stats')" 
+        [class.active]="activeTab === 'stats'"
+        class="tab-btn">
+        <ion-icon name="stats-chart-outline"></ion-icon>
+      </ion-button>
+
+      <!-- FAB Button Centralizado -->
+      <ion-button class="fab-button" (click)="onFabClick()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+
+      <ion-button 
+        (click)="setActiveTab('wallet')" 
+        [class.active]="activeTab === 'wallet'"
+        class="tab-btn">
+        <ion-icon name="wallet-outline"></ion-icon>
+      </ion-button>
+      
+      <ion-button 
+        (click)="setActiveTab('profile')" 
+        [class.active]="activeTab === 'profile'"
+        class="tab-btn">
+        <ion-icon name="person-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

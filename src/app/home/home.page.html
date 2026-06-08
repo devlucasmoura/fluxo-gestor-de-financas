@@ -1,0 +1,175 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="gradient-header">
+    <ion-title class="header-title">
+      <div class="greeting">
+        <p>{{ greeting }},</p>
+        <h2>{{ userName }}</h2>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="notification-btn">
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- cartão de saldo -->
+  <ion-card class="balance-card">
+    <ion-card-header>
+      <div class="card-top">
+        <div class="card-label">
+          <span>Saldo</span>
+        </div>
+      </div>
+      <div class="balance-row">
+        <ion-card-title class="balance-amount">
+          {{ getCurrencySymbol() }} {{ convert(balanceBRL) | number: '1.2-2' }}
+        </ion-card-title>
+        <button class="currency-btn" (click)="toggleCurrency()">
+          <ion-spinner *ngIf="loadingRates" name="dots"></ion-spinner>
+          <span *ngIf="!loadingRates">{{ currentCurrency }}</span>
+        </button>
+      </div>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="stats-container">
+        <div class="stat-item">
+          <div class="stat-header">
+            <div class="icon-circle income">
+              <ion-icon name="arrow-down-outline"></ion-icon>
+            </div>
+            <span>Renda</span>
+          </div>
+          <div class="stat-value-row">
+            <p class="stat-value">{{ getCurrencySymbol() }} {{ convert(incomeBRL) | number: '1.2-2' }}</p>
+            <button class="edit-stat-btn" (click)="editarRenda()">
+              <ion-icon name="pencil-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-header">
+            <div class="icon-circle expense">
+              <ion-icon name="arrow-up-outline"></ion-icon>
+            </div>
+            <span>Gastos</span>
+          </div>
+          <p class="stat-value">{{ getCurrencySymbol() }} {{ convert(expensesBRL) | number: '1.2-2' }}</p>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Transaction History -->
+  <div class="section-header">
+    <h3>Histórico De Transação</h3>
+    <ion-note (click)="verTudo()" style="cursor:pointer">Ver Tudo</ion-note>
+  </div>
+
+  <div *ngIf="transactions.length === 0" class="empty-transactions">
+    <p>Nenhum gasto registrado ainda.</p>
+  </div>
+
+  <ion-list lines="none">
+    <ion-item *ngFor="let transaction of transactions">
+      <ion-thumbnail slot="start" class="transaction-icon">
+        <div *ngIf="isEmojiIcon(transaction.icon)" class="emoji-thumb">{{ transaction.icon }}</div>
+        <img *ngIf="!isEmojiIcon(transaction.icon)" [src]="getTransactionIcon(transaction.icon)" [alt]="transaction.name" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ transaction.name }}</h2>
+        <p>{{ transaction.date | date: 'dd/MM/yyyy' }}</p>
+      </ion-label>
+      <ion-text slot="end" color="danger" class="amount">
+        - R$ {{ transaction.amount | number: '1.2-2' }}
+      </ion-text>
+    </ion-item>
+  </ion-list>
+
+  <!-- gerenciador de gastos  -->
+  <div class="section-header">
+    <h3>Gerenciar Gastos</h3>
+    <ion-note (click)="editarGastos()" style="cursor:pointer">{{ editMode ? 'Concluir' : 'Editar' }}</ion-note>
+  </div>
+
+  <div class="expense-categories">
+    <ion-card *ngFor="let category of expenseCategories" class="expense-card">
+      <ion-card-content>
+        <div class="expense-header">
+          <div class="expense-info">
+            <img *ngIf="category.isBrand" [src]="getBrandSvg(category.icon)" class="expense-brand-icon">
+            <span *ngIf="!category.isBrand" class="expense-icon">{{ category.icon }}</span>
+            <div>
+              <h4>{{ category.name }}</h4>
+              <p>R$ {{ category.amount | number: '1.2-2' }}</p>
+            </div>
+          </div>
+          <div class="expense-actions" *ngIf="editMode; else showPercentage">
+            <button class="edit-action-btn pencil" (click)="editarCategoria(category)">
+              <ion-icon name="pencil-outline"></ion-icon>
+            </button>
+            <button class="edit-action-btn trash" (click)="deletarCategoria(category.name)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
+          <ng-template #showPercentage>
+            <span class="expense-percentage">{{ category.percentage }}%</span>
+          </ng-template>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="category.percentage" [style.background-color]="category.color"></div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div class="pay-total-wrapper" *ngIf="expenseCategories.length > 0">
+    <span class="pay-total-label">Total de gastos</span>
+    <span class="pay-total-amount">R$ {{ expensesBRL | number: '1.2-2' }}</span>
+    <button class="pay-total-btn" (click)="pagarTotalGastos()">Pagar</button>
+  </div>
+</ion-content>
+
+<!-- barra tab -->
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="tab-bar">
+    <div class="tab-buttons">
+      <ion-button 
+        (click)="setActiveTab('home')" 
+        [class.active]="activeTab === 'home'"
+        class="tab-btn">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+      
+      <ion-button 
+        (click)="setActiveTab('stats')" 
+        [class.active]="activeTab === 'stats'"
+        class="tab-btn">
+        <ion-icon name="stats-chart-outline"></ion-icon>
+      </ion-button>
+
+      <!-- FAB Button Centralizado -->
+      <ion-button class="fab-button" (click)="onFabClick()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+
+      <ion-button 
+        (click)="setActiveTab('wallet')" 
+        [class.active]="activeTab === 'wallet'"
+        class="tab-btn">
+        <ion-icon name="wallet-outline"></ion-icon>
+      </ion-button>
+      
+      <ion-button 
+        (click)="setActiveTab('profile')" 
+        [class.active]="activeTab === 'profile'"
+        class="tab-btn">
+        <ion-icon name="person-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

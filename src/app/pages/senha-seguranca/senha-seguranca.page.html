@@ -1,0 +1,38 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="gradient-header">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" class="back-btn">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="header-title">Senha e Segurança</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="content-card">
+    <p class="section-label">Alterar senha</p>
+
+    <div class="input-group">
+      <label>Senha atual</label>
+      <input type="password" [(ngModel)]="senhaAtual" placeholder="Digite sua senha atual">
+    </div>
+
+    <div class="input-group">
+      <label>Nova senha</label>
+      <input type="password" [(ngModel)]="novaSenha" placeholder="Mínimo 6 caracteres">
+    </div>
+
+    <div class="input-group">
+      <label>Confirmar nova senha</label>
+      <input type="password" [(ngModel)]="confirmarSenha" placeholder="Repita a nova senha">
+    </div>
+
+    <div class="sucesso-msg" *ngIf="sucesso">
+      <ion-icon name="checkmark-circle-outline"></ion-icon>
+      Senha alterada com sucesso!
+    </div>
+
+    <button class="save-btn" (click)="alterarSenha()">Salvar nova senha</button>
+  </div>
+</ion-content>

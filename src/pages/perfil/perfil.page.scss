@@ -1,0 +1,258 @@
+// Header Styles
+.gradient-header {
+  --background: linear-gradient(180deg, #4E5EB3 0%, #6C7CD4 100%);
+  --color: white;
+  padding: 20px 16px 0;
+}
+
+.back-btn, .notification-btn {
+  --color: white;
+  --background: transparent;
+  font-size: 24px;
+}
+
+.notification-btn {
+  position: relative;
+  .badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 8px;
+    height: 8px;
+    background: #FF9F43;
+    border-radius: 50%;
+    border: 2px solid #6C7CD4;
+  }
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+}
+
+// Container
+.profile-container {
+  background: linear-gradient(180deg, #6C7CD4 0%, #ffffff 80%);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+}
+
+// Profile Header Info
+.profile-header-info {
+  text-align: center;
+  padding: 20px 20px 40px;
+  color: white;
+
+  .avatar-wrapper {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid white;
+    margin: 0 auto 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    position: relative;
+    cursor: pointer;
+    background: #f0f0f0;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .camera-overlay {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 4px 0;
+      color: white;
+      font-size: 18px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    &:hover .camera-overlay {
+      opacity: 1;
+    }
+  }
+
+  .user-name {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    color: #ffffff;
+    text-shadow: 1px 2px 0px #000000;
+  }
+
+  .user-handle {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 1px 2px 0px #000000;
+    margin: 0;
+  }
+}
+
+// Content Card
+.profile-content-card {
+  background: white !important;
+  border-radius: 32px 32px 0 0;
+  flex: 1;
+  padding: 30px 24px;
+  margin-top: -20px;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.05);
+
+  .invite-friends-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    margin-bottom: 20px;
+
+    .icon-diamond {
+      width: 48px;
+      height: 48px;
+      background: #f0f7ff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4E5EB3;
+      font-size: 24px;
+    }
+
+    span {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+  }
+
+  .divider {
+    height: 1px;
+    background: #f0f0f0;
+    margin-bottom: 20px;
+  }
+
+  .options-list {
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 0;
+      
+      .option-icon {
+        font-size: 24px;
+        color: #666;
+      }
+
+      .option-text {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+      }
+
+      &:active {
+        opacity: 0.7;
+      }
+    }
+  }
+}
+
+// Tab Bar (RESTAURADO E UNIFICADO)
+.tab-bar {
+  --background: #ffffff !important;
+  --border-style: none;
+  height: 70px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+  background: #ffffff !important;
+  color: #333 !important;
+  padding-bottom: env(safe-area-inset-bottom);
+  border: none !important;
+
+  .tab-buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: #ffffff !important;
+    position: relative;
+
+    .tab-btn {
+      --color: #bdc3c7;
+      --background: transparent !important;
+      --border: none !important;
+      --box-shadow: none !important;
+      --padding-start: 0 !important;
+      --padding-end: 0 !important;
+      --padding-top: 0 !important;
+      --padding-bottom: 0 !important;
+      font-size: 32px;
+      margin: 0 !important;
+      height: 100%;
+      width: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      border: none !important;
+
+      ion-icon {
+        font-size: 36px;
+        color: #bdc3c7;
+      }
+
+      &.active {
+        --color: #4e5eb3;
+        ion-icon {
+          color: #4e5eb3;
+          font-size: 36px;
+        }
+      }
+    }
+
+    .fab-button {
+      --background: linear-gradient(135deg, #3D4EAF 0%, #4E5EB3 100%) !important;
+      --color: white;
+      --box-shadow: 0 8px 20px rgba(61, 78, 175, 0.35);
+      --border: none !important;
+      --padding-start: 0 !important;
+      --padding-end: 0 !important;
+      --padding-top: 0 !important;
+      --padding-bottom: 0 !important;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin: 0 !important;
+      margin-bottom: 15px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 10;
+      border: none !important;
+
+      ion-icon {
+        font-size: 36px;
+        color: white;
+      }
+
+      &:hover,
+      &:active {
+        --box-shadow: 0 12px 28px rgba(61, 78, 175, 0.45);
+        transform: scale(1.08);
+      }
+    }
+  }
+}
+
+ion-content {
+  --background: #ffffff !important;
+}

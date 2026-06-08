@@ -1,0 +1,111 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="gradient-header">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" class="back-btn">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="header-title">Perfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="notification-btn">
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+        <span class="badge"></span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="profile-container">
+    <!-- Profile Header Info -->
+    <div class="profile-header-info">
+      <div class="avatar-wrapper" (click)="triggerUpload()">
+        <img [src]="profileImage || defaultAvatar" alt="Avatar">
+        <div class="camera-overlay">
+          <ion-icon name="camera-outline"></ion-icon>
+        </div>
+        <input type="file" id="profile-upload" (change)="onFileSelected($event)" accept="image/*" hidden>
+      </div>
+      <h2 class="user-name">Gabriel da Silva Rocha</h2>
+      <p class="user-handle">@gab_rocha</p>
+    </div>
+
+    <!-- Profile Options -->
+    <div class="profile-content-card">
+      <div class="invite-friends-item">
+        <div class="icon-diamond">
+          <ion-icon name="diamond-outline"></ion-icon>
+        </div>
+        <span class="text-black">Convide seus amigos</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="options-list">
+        <div class="option-item">
+          <ion-icon name="person-outline" class="option-icon"></ion-icon>
+          <span class="option-text">Dados pessoais</span>
+        </div>
+        
+        <div class="option-item">
+          <ion-icon name="people-outline" class="option-icon"></ion-icon>
+          <span class="option-text">Gerenciar contas</span>
+        </div>
+
+        <div class="option-item">
+          <ion-icon name="mail-outline" class="option-icon"></ion-icon>
+          <span class="option-text">Mensagens</span>
+        </div>
+
+        <div class="option-item">
+          <ion-icon name="shield-checkmark-outline" class="option-icon"></ion-icon>
+          <span class="option-text">Senha e segurança</span>
+        </div>
+
+        <div class="option-item">
+          <ion-icon name="lock-closed-outline" class="option-icon"></ion-icon>
+          <span class="option-text">Data e privacidade</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- Bottom Tab Bar -->
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="tab-bar">
+    <div class="tab-buttons">
+      <ion-button 
+        (click)="setActiveTab('home')" 
+        [class.active]="activeTab === 'home'"
+        class="tab-btn">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+      
+      <ion-button 
+        (click)="setActiveTab('stats')" 
+        [class.active]="activeTab === 'stats'"
+        class="tab-btn">
+        <ion-icon name="stats-chart-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button class="fab-button" (click)="onFabClick()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+
+      <ion-button 
+        (click)="setActiveTab('wallet')" 
+        [class.active]="activeTab === 'wallet'"
+        class="tab-btn">
+        <ion-icon name="wallet-outline"></ion-icon>
+      </ion-button>
+      
+      <ion-button 
+        (click)="setActiveTab('profile')" 
+        [class.active]="activeTab === 'profile'"
+        class="tab-btn">
+        <ion-icon name="person-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,132 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="gradient-header">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" class="back-btn">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="header-title">Carteira</ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="notification-btn">
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+        <span class="badge"></span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="wallet-container">
+    <!-- Balance Section -->
+    <div class="balance-section">
+      <p class="balance-label">Saldo</p>
+      <h1 class="balance-value">R$ {{ balance | number: '1.2-2' }}</h1>
+      
+      <div class="action-buttons">
+        <div class="action-item" (click)="addBalance()">
+          <div class="action-icon-circle">
+            <ion-icon name="add"></ion-icon>
+          </div>
+          <p>Adicionar</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Card -->
+    <div class="content-card">
+      <ion-segment [value]="selectedSegment" (ionChange)="segmentChanged($event)" mode="ios" class="custom-segment">
+        <ion-segment-button value="transactions">
+          <ion-label>Transações</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="upcoming">
+          <ion-label>Próximas contas</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+
+      <!-- Transactions List -->
+      <div *ngIf="selectedSegment === 'transactions'" class="list-container">
+        <div *ngFor="let item of transactions" class="custom-item">
+          <div class="item-start">
+            <div class="icon-wrapper" [ngClass]="item.type">
+              <span *ngIf="item.icon.length > 2">{{ item.icon }}</span>
+              <div *ngIf="item.icon.length <= 2" class="emoji-icon">{{ item.icon }}</div>
+            </div>
+            <div class="item-label">
+              <h3 class="text-black">{{ item.name }}</h3>
+              <p class="text-gray">{{ item.date }}</p>
+            </div>
+          </div>
+          <div class="item-end">
+            <div class="amount" [ngClass]="item.type">
+              {{ item.type === 'income' ? '+' : '-' }} R$ {{ item.amount | number: '1.2-2' }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Bills List -->
+      <div *ngIf="selectedSegment === 'upcoming'" class="list-container">
+        <div *ngFor="let bill of upcomingBills" class="bill-group">
+          <div class="custom-item">
+            <div class="item-start">
+              <div class="icon-wrapper expense">
+                <div class="emoji-icon">{{ bill.icon }}</div>
+              </div>
+              <div class="item-label">
+                <h3 class="text-black">{{ bill.name }}</h3>
+                <p class="text-gray">{{ bill.dueDate }}</p>
+              </div>
+            </div>
+            <div class="item-end">
+              <button class="custom-pay-btn">Pagar</button>
+            </div>
+          </div>
+          <!-- Tip Section -->
+          <div class="tip-box" *ngIf="bill.tip">
+            <ion-icon name="bulb-outline" color="warning"></ion-icon>
+            <p>{{ bill.tip }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- Bottom Tab Bar -->
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="tab-bar">
+    <div class="tab-buttons">
+      <ion-button 
+        (click)="setActiveTab('home')" 
+        [class.active]="activeTab === 'home'"
+        class="tab-btn">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+      
+      <ion-button 
+        (click)="setActiveTab('stats')" 
+        [class.active]="activeTab === 'stats'"
+        class="tab-btn">
+        <ion-icon name="stats-chart-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button class="fab-button" (click)="onFabClick()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+
+      <ion-button 
+        (click)="setActiveTab('wallet')" 
+        [class.active]="activeTab === 'wallet'"
+        class="tab-btn">
+        <ion-icon name="wallet-outline"></ion-icon>
+      </ion-button>
+      
+      <ion-button 
+        (click)="setActiveTab('profile')" 
+        [class.active]="activeTab === 'profile'"
+        class="tab-btn">
+        <ion-icon name="person-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

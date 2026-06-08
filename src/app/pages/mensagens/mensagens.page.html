@@ -1,0 +1,18 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="gradient-header">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" class="back-btn">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="header-title">Mensagens</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="empty-state">
+    <ion-icon name="notifications-off-outline" class="empty-icon"></ion-icon>
+    <h3>Nenhuma mensagem</h3>
+    <p>Você não tem notificações no momento.</p>
+  </div>
+</ion-content>

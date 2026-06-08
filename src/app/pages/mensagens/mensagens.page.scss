@@ -1,0 +1,36 @@
+.gradient-header {
+  --background: linear-gradient(180deg, #4E5EB3 0%, #6C7CD4 100%);
+  --color: white;
+}
+.back-btn { --color: white; --background: transparent; }
+.header-title { font-size: 20px; font-weight: 600; color: white; text-align: center; }
+ion-content { --background: #f5f6fa; }
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60%;
+  text-align: center;
+  padding: 32px;
+
+  .empty-icon {
+    font-size: 72px;
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 8px;
+  }
+
+  p {
+    font-size: 14px;
+    color: #999;
+    margin: 0;
+  }
+}
